@@ -1,6 +1,6 @@
 # QRG-EEG
 
-Standalone EEG experiment code for anonymous review. **All datasets must be supplied separately as local files.** The program contains no dataset acquisition, remote dataset-client or package-installation code.
+Standalone EEG experiment code for anonymous review.  The program contains no dataset acquisition, remote dataset-client or package-installation code.
 
 ## Files
 
