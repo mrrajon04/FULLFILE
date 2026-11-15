@@ -1,4 +1,4 @@
-# QRG-EEG: Full model suite
+# QRG-EEG
 
 Standalone EEG experiment code for anonymous review. **All datasets must be supplied separately as local files.** The program contains no dataset acquisition, remote dataset-client or package-installation code.
 
@@ -46,7 +46,7 @@ The NPZ file contains `X`, `y`, `subjects`, `sessions` and `header`. `X` is `[tr
 
 Prepared bundles must already be at 128 Hz, with 102 samples for P300, 512 for UCL imagery, and 256 for EEGET imagery. P300 class order is `['NonTarget', 'Target']` with labels 0/1; imagery order is `['Left', 'Right', 'Rest']` with labels 0/1/2. Supply all eight BNCI, eight bigP3BCI, eight UCL and six EEGET participants. Prepared bundles bypass repeated preprocessing and undergo shape, finiteness, participant and class checks.
 
-## Run on GPU 0
+## Run 
 
 Print the schedule:
 
@@ -135,38 +135,5 @@ The full suite has 4,050 fitted evaluations and 450 test-time shuffle-control ev
 
 Quantum calculations use differentiable PyTorch state-vector simulation. The full suite retains nested source-only configuration selection. The six-entry suite retains its fixed reference structure: Variant A, q=8, two layers, graph multiplier 1.5 and average pooling, with the indicated representation or q=6 override.
 
-## Outputs
 
-Outputs are written under `outputs_full_local/experiments/` when using the command above.
 
-| Output | Contents |
-|---|---|
-| `per_seed_results.csv` | Successful configuration/participant/seed evaluations and metrics. |
-| `per_subject_mean_sd.csv` | Mean and sample SD across three seeds for each participant. |
-| `dataset_subject_mean_sd.csv` | Dataset mean and sample SD across participant means. |
-| `dataset_per_seed_means.csv` | Mean across participants for each dataset and seed. |
-| `dataset_seed_mean_sd.csv` | Mean and sample SD across the three dataset-level seed means. |
-| `job_status.csv`, `model_coverage.csv`, `completion.json` | Status and coverage, including all 90 required evaluations per configuration. |
-| `results.md` | Tables calculated from measured results. |
-| `participant_registry.json`, `model_registry.csv` | Participant and configuration registries. |
-| `experiment_manifest.json` | Scientific settings, source identity and actual software/device versions. |
-| `evaluations/` | Per-evaluation labels, probabilities, decisions, result records and fitted artifacts. |
-| `configurations/` | Source-selection plans, validation caches and runtime records. |
-
-Metrics include Macro-F1, accuracy, balanced accuracy, Cohen's kappa, AUROC and target average precision for P300. Target average precision is not applicable to imagery. Uncalibrated Macro-F1/balanced accuracy and class-specific results are also retained. Fractional metrics use a 0–1 scale. All sample SDs use `ddof=1`; seed SD and participant SD are exported separately.
-
-Each successful evaluation commits its artifacts and result record before aggregate exports are refreshed. Neural checkpoints are saved when supplied by the fitter. Retain the output directory for resuming. Incomplete evaluations are reported explicitly and are not replaced by numeric scores.
-
-## Optional analyses
-
-`--finite-shots` enables exact and sampled readout at 64, 256, 1024 and 4096 shots, with five sampled repeats per budget. `--efficiency` enables separate controlled simulator/projection benchmarks. Both default to disabled and add analyses beyond the final-evaluation count.
-
-The full suite uses its generated main-model checkpoints for finite-shot inference.
-
-`--reference-selections` accepts local `source_selection_v13__<dataset>__test_<participant>.json` records. Optional inputs are read from local paths as well.
-
-## Reproducibility
-
-The dependency file gives supported ranges rather than a historical environment lock. For numerical replication, retain the exact input arrays, scientific settings, selected configurations and software versions recorded by the reference experiment. Existing prepared bundles preserve the reference preprocessed arrays when changing the surrounding file layout.
-
-This distribution contains code and documentation only. Dataset files are supplied separately by the repository maintainer. The source and archive metadata contain no author/contact fields or private workstation paths.
